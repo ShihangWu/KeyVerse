@@ -149,7 +149,7 @@ int main(void)
 	  getColorFromEncoder(encoder_value, &r, &g, &b);
 	  WS2812_SetAll(r, g, b);
 	  WS2812_Update();
-	  HAL_Delay(10);
+	  HAL_Delay(100);
   /*version 1
   OLED_Init();
 
@@ -186,7 +186,7 @@ int main(void)
 		  getColorFromEncoder(encoder_value, &r, &g, &b);
 		  WS2812_SetAll(r, g, b);
 		  WS2812_Update();
-		  HAL_Delay(10);
+		  HAL_Delay(100);
 		  /*status2 OLED module*/
 		  OLED_NewFrame();
 //	  	  OLED_ShowNum(0, 0, 1, &font16x16, OLED_COLOR_NORMAL); // 中文、英文、符号混合显示
