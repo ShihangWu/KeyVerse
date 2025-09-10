@@ -39,7 +39,19 @@
 
 ## 代码中可以直接修改而无需修改程序结构的部分
 
-- 键盘映射： [`keypad.c `](.\Core\Src\keypad.c) 中 keypad变量
-- 灯光颜色：[`ws2812.c`](.\Core\Src\ws2812.c)
+- 键盘映射： [`keypad.c `](./Core/Src/keypad.c) 中 keypad变量
+- 灯光颜色：[`ws2812.c`](./Core/Src/ws2812.c)
+- OLED显示屏显示内容：[`oled.h`](./Core/Src/font.c) 
 
-- OLED显示屏显示内容：[`oled.h`](.\Core\Inc\oled.h) 
+---
+
+## 需要注意的地方
+
+- 烧录
+- 用STM32CubeMX重新初始化（即修改.ioc文件）后，需将[`usbd_hid.c`](.\Middlewares\ST\STM32_USB_Device_Library\Class\HID\Src)和`usbd_hid.h`
+- WS2812
+
+
+
+- 点击跳转文件 反斜杠改成斜杠 试试看
+
