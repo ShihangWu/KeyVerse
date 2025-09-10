@@ -1,0 +1,4 @@
+../Core/Src/ws2812.c:10:6:WS2812_Set	16	static
+../Core/Src/ws2812.c:16:6:WS2812_SetAll	24	static
+../Core/Src/ws2812.c:22:6:WS2812_Update	24	static
+../Core/Src/ws2812.c:44:6:getColorFromEncoder	32	static
