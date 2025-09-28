@@ -150,18 +150,6 @@ int main(void)
 	  WS2812_SetAll(r, g, b);
 	  WS2812_Update();
 	  HAL_Delay(100);
-  /*version 1
-  OLED_Init();
-
-  HAL_TIM_Encoder_Start(&htim1, TIM_CHANNEL_ALL);
-
-  int count=0;
-  char message[20]="";
-
-  OLED_NewFrame();
-  OLED_DrawImage((128 - (OLED_KeyVerseImg.w)) / 2, 0, &OLED_KeyVerseImg, OLED_COLOR_NORMAL);
-  OLED_ShowFrame();
-  */
 
   /* USER CODE END 2 */
 
@@ -202,134 +190,6 @@ int main(void)
 
 		  status = 0;
 	  }
-
-
-
-
-	  /*status0 module*/
-//	  	  /* scan keypad module*/
-//	  	  ScanKeypad();
-
-	  /*status1 module*/
-//	  /*status1 ws2812 module*/
-//	  encoder_value = __HAL_TIM_GET_COUNTER(&htim1);
-//	  getColorFromEncoder(encoder_value, &r, &g, &b);
-//	  WS2812_SetAll(r, g, b);
-//	  WS2812_Update();
-//	  HAL_Delay(10);
-//	  /*status2 OLED module*/
-//	  OLED_NewFrame();
-//	  OLED_DrawImage((128 - (OLED_KeyVerseImg.w)) / 2, 0, &OLED_KeyVerseImg, OLED_COLOR_NORMAL);
-//	  OLED_ShowFrame();
-
-
-	  /*test status*/
-//	  	  OLED_NewFrame(); // 新建一个空白缓冲区
-//	  //	  OLED_PrintString(0, 0, "Count:", &font16x16, OLED_COLOR_NORMAL); // 中文、英文、符号混合显示
-//	  //	  OLED_PrintASCIIChar(1, 0, count, &font16x16, OLED_COLOR_NORMAL);
-//	  	  OLED_ShowNum(0, 0, status, &font16x16, OLED_COLOR_NORMAL); // 中文、英文、符号混合显示
-//	  	  OLED_ShowFrame(); // 将缓冲区内容显示到屏幕上
-
-
-//	  encoder_value = __HAL_TIM_GET_COUNTER(&htim1);
-
-	  /*test blue*/
-//	  WS2812_SetAll(0x01, 0, 0xFF);
-//	  WS2812_Update();
-//	  HAL_Delay(100);
-
-
-
-//	  	  OLED_NewFrame(); // 新建一个空白缓冲区
-//	  //	  OLED_PrintString(0, 0, "Count:", &font16x16, OLED_COLOR_NORMAL); // 中文、英文、符号混合显示
-//	  //	  OLED_PrintASCIIChar(1, 0, count, &font16x16, OLED_COLOR_NORMAL);
-//	  	  OLED_ShowNum(0, 0, encoder_value, &font16x16, OLED_COLOR_NORMAL); // 中文、英文、符号混合显示
-//	  	  OLED_ShowFrame(); // 将缓冲区内容显示到屏幕上
-
-//	  // 让RGB轮流主导
-//	  if (encoder_value < 21845) {        // 0-21844: 红主导
-//	      r = 255;
-//	      g = (encoder_value * 255) / 21845;
-//	      b = 0;
-//	  } else if (encoder_value < 43690) { // 21845-43689: 绿主导
-//	      r = 255 - ((encoder_value - 21845) * 255) / 21845;
-//	      g = 255;
-//	      b = 0;
-//	  } else {                            // 43690-65535: 蓝主导
-//	      r = 0;
-//	      g = 255 - ((encoder_value - 43690) * 255) / 21845;
-//	      b = ((encoder_value - 43690) * 255) / 21845;
-//	  }
-
-//		    WS2812_SetAll(r, g, b);
-//		    WS2812_Update();
-//		    HAL_Delay(10);
-
-//	  // no 将0-65535均匀分配到3个颜色通道
-//	  r = (encoder_value * 255) / 65535;        // 红色：完整范围
-//	  g = ((encoder_value + 21845) * 255) / 65535 & 0xFF; // 绿色：偏移1/3
-//	  b = ((encoder_value + 43690) * 255) / 65535 & 0xFF; // 蓝色：偏移2/3
-
-//	  // no 将16位值拆分为3个8位值，颜色变化不均匀，r,g,b变化快慢不同
-//	  r = (encoder_value >> 8) & 0xFF;    // 高8位作为红色
-//	  g = (encoder_value >> 4) & 0xFF;    // 中间8位作为绿色
-//	  b = encoder_value & 0xFF;           // 低8位作为蓝色
-
-//  	  OLED_NewFrame(); // 新建一个空白缓冲区
-//  //	  OLED_PrintString(0, 0, "Count:", &font16x16, OLED_COLOR_NORMAL); // 中文、英文、符号混合显示
-//  //	  OLED_PrintASCIIChar(1, 0, count, &font16x16, OLED_COLOR_NORMAL);
-//  	  OLED_ShowNum(0, 0, r, &font16x16, OLED_COLOR_NORMAL); // 中文、英文、符号混合显示
-//  	 OLED_ShowNum(1, 0, g, &font16x16, OLED_COLOR_NORMAL); // 中文、英文、符号混合显示
-//  	 OLED_ShowNum(2, 0, b, &font16x16, OLED_COLOR_NORMAL); // 中文、英文、符号混合显示
-//  	  OLED_ShowFrame(); // 将缓冲区内容显示到屏幕上
-
-
-
-//	  OLED_NewFrame(); // 新建一个空白缓冲区
-////	  OLED_PrintString(0, 0, "Count:", &font16x16, OLED_COLOR_NORMAL); // 中文、英文、符号混合显示
-////	  OLED_PrintASCIIChar(1, 0, count, &font16x16, OLED_COLOR_NORMAL);
-//	  OLED_ShowNum(0, 0, count, &font16x16, OLED_COLOR_NORMAL); // 中文、英文、符号混合显示
-//	  OLED_ShowFrame(); // 将缓冲区内容显示到屏幕上
-
-
-
-	  /*test ws2812 led_all*/
-//	  for (uint8_t r = 0; r <= 0xFF; r++){
-//		  WS2812_SetAll(r, 0, 0xFF);
-//		  WS2812_Update();
-//		  HAL_Delay(10);
-//	  }
-
-/*version 1
-	  ScanKeypad();
-
-	  count = __HAL_TIM_GET_COUNTER(&htim1);
-	  color=count/65536*16777216;
-//	  ws2812_color=count;
-
-	  ws2812_set_all(color);
-	  ws2812_update();
-*/
-
-
-//	  OLED_NewFrame();
-//
-//	  sprintf(message,"%ld",ws2812_color);
-//	  OLED_PrintString(0,0,message,&font16x16,OLED_COLOR_NORMAL);
-//
-//	  OLED_ShowFrame();
-
-
-//	  	  //test
-//	  	  HAL_Delay(50);
-//	  	  HIDkeyBoard.MODIFIER=0x00; //Print char in Capital
-//	  	  HIDkeyBoard.KEYCODE1=0x5C; //Print 'A'
-//	  	  USBD_HID_SendReport(&hUsbDeviceFS,&HIDkeyBoard,sizeof(HIDkeyBoard));
-//	  	  HAL_Delay(50);
-//	  	  HIDkeyBoard.MODIFIER=0x00; //Print char in Capital
-//	  	  HIDkeyBoard.KEYCODE1=0x00; //Release Key
-//	  	  USBD_HID_SendReport(&hUsbDeviceFS,&HIDkeyBoard,sizeof(HIDkeyBoard));
-//	  	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
@@ -414,3 +274,5 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
+
+
