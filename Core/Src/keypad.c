@@ -1,47 +1,3 @@
-<<<<<<< HEAD
-/*
- * keypad.c
- *
- *  Created on: Aug 22, 2025
- *      Author: ShihangWu
- */
-#include "main.h"
-#include "usb_device.h"
-#include "usbd_hid.h"  // 确保包含 HID 相关的头文件
-
-extern USBD_HandleTypeDef hUsbDeviceFS;
-
-typedef struct {
-	uint8_t MODIFIER;
-	uint8_t RESERVED;
-	uint8_t KEYCODE1;
-	uint8_t KEYCODE2;
-	uint8_t KEYCODE3;
-	uint8_t KEYCODE4;
-	uint8_t KEYCODE5;
-	uint8_t KEYCODE6;
-}keyboardReportDes;
-
-keyboardReportDes HIDkeyBoard={0,0,0,0,0,0,0,0};
-
-// 假设矩阵键值如下
-uint8_t keypad[5][4] = {
-    {0x2A, 0x54, 0x55, 0x00},  // 第一行
-    {0x5F, 0x60, 0x61, 0x56},  // 第二行
-    {0x5C, 0x5D, 0x5E, 0x57},  // 第三行
-    {0x59, 0x5A, 0x5B, 0x00},  // 第四行
-    {0x62, 0x63, 0x58, 0x00}   // 第五行
-};
-
-uint8_t KeyNum;
-
-void ScanKeypad(void) {
-	static uint8_t keyState[5][4] = {0};  // 按键状态缓存
-	static uint8_t keyPressed[5][4] = {0}; // 按键是否已经处理过
-
-	for (int row = 0; row < 5; row++) {
-    // 先将所有行设置为高电平
-=======
 #include "main.h"
 #include "usb_device.h"
 #include "usbd_hid.h"
@@ -106,61 +62,12 @@ void ScanKeypad(void) {
     keypad_state.last_scan_time = current_time;
 
     // 1. 先将所有行设置为高电平
->>>>>>> 2814753 (long press added)
     HAL_GPIO_WritePin(GPIOB, ROW0_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(GPIOB, ROW1_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(GPIOA, ROW2_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(GPIOA, ROW3_Pin, GPIO_PIN_SET);
     HAL_GPIO_WritePin(GPIOA, ROW4_Pin, GPIO_PIN_SET);
 
-<<<<<<< HEAD
-    // 将当前行设置为低电平
-    if (row == 0) HAL_GPIO_WritePin(GPIOB, ROW0_Pin, GPIO_PIN_RESET);
-    if (row == 1) HAL_GPIO_WritePin(GPIOB, ROW1_Pin, GPIO_PIN_RESET);
-    if (row == 2) HAL_GPIO_WritePin(GPIOA, ROW2_Pin, GPIO_PIN_RESET);
-    if (row == 3) HAL_GPIO_WritePin(GPIOA, ROW3_Pin, GPIO_PIN_RESET);
-    if (row == 4) HAL_GPIO_WritePin(GPIOA, ROW4_Pin, GPIO_PIN_RESET);
-
-    // 消抖延迟（10ms），确保按键稳定
-    HAL_Delay(10);
-
-    // 扫描列
-    for (int col = 0; col < 4; col++) {
-        if (col == 0 && HAL_GPIO_ReadPin(GPIOB, COL0_Pin) == GPIO_PIN_RESET && keyState[row][col] == 0) {
-            keyState[row][col] = 1;  // 按下了键
-            if (keyPressed[row][col] == 0) {
-                KeyNum = keypad[row][col];  // 设置键码
-                HIDkeyBoard.KEYCODE1 = KeyNum;
-                USBD_HID_SendReport(&hUsbDeviceFS, &HIDkeyBoard, sizeof(HIDkeyBoard));
-                keyPressed[row][col] = 1;  // 标记该按键已经处理过
-            }
-        }
-        if (col == 1 && HAL_GPIO_ReadPin(GPIOB, COL1_Pin) == GPIO_PIN_RESET && keyState[row][col] == 0) {
-            keyState[row][col] = 1;
-            if (keyPressed[row][col] == 0) {
-                KeyNum = keypad[row][col];
-                HIDkeyBoard.KEYCODE1 = KeyNum;
-                USBD_HID_SendReport(&hUsbDeviceFS, &HIDkeyBoard, sizeof(HIDkeyBoard));
-                keyPressed[row][col] = 1;
-            }
-        }
-        if (col == 2 && HAL_GPIO_ReadPin(GPIOB, COL2_Pin) == GPIO_PIN_RESET && keyState[row][col] == 0) {
-            keyState[row][col] = 1;
-            if (keyPressed[row][col] == 0) {
-                KeyNum = keypad[row][col];
-                HIDkeyBoard.KEYCODE1 = KeyNum;
-                USBD_HID_SendReport(&hUsbDeviceFS, &HIDkeyBoard, sizeof(HIDkeyBoard));
-                keyPressed[row][col] = 1;
-            }
-        }
-        if (col == 3 && HAL_GPIO_ReadPin(GPIOA, COL3_Pin) == GPIO_PIN_RESET && keyState[row][col] == 0) {
-            keyState[row][col] = 1;
-            if (keyPressed[row][col] == 0) {
-                KeyNum = keypad[row][col];
-                HIDkeyBoard.KEYCODE1 = KeyNum;
-                USBD_HID_SendReport(&hUsbDeviceFS, &HIDkeyBoard, sizeof(HIDkeyBoard));
-                keyPressed[row][col] = 1;
-=======
     // 2. 将当前扫描行设置为低电平
     switch (keypad_state.current_row) {
         case 0: HAL_GPIO_WritePin(GPIOB, ROW0_Pin, GPIO_PIN_RESET); break;
@@ -231,41 +138,10 @@ void ScanKeypad(void) {
                 // 发送释放报告
                 HIDkeyBoard.KEYCODE1 = 0x00;
                 USBD_HID_SendReport(&hUsbDeviceFS, &HIDkeyBoard, sizeof(HIDkeyBoard));
->>>>>>> 2814753 (long press added)
             }
         }
     }
 
-<<<<<<< HEAD
-    // 按键松开后重置状态
-    for (int col = 0; col < 4; col++) {
-        if (HAL_GPIO_ReadPin(GPIOB, COL0_Pin) == GPIO_PIN_SET && keyState[row][0] == 1) {
-            keyState[row][0] = 0;
-            keyPressed[row][0] = 0;  // 重置已处理标志
-        }
-        if (HAL_GPIO_ReadPin(GPIOB, COL1_Pin) == GPIO_PIN_SET && keyState[row][1] == 1) {
-            keyState[row][1] = 0;
-            keyPressed[row][1] = 0;
-        }
-        if (HAL_GPIO_ReadPin(GPIOB, COL2_Pin) == GPIO_PIN_SET && keyState[row][2] == 1) {
-            keyState[row][2] = 0;
-            keyPressed[row][2] = 0;
-        }
-        if (HAL_GPIO_ReadPin(GPIOA, COL3_Pin) == GPIO_PIN_SET && keyState[row][3] == 1) {
-            keyState[row][3] = 0;
-            keyPressed[row][3] = 0;
-        }
-    }
-}
-
-	// 按键释放后发送释放报告
-	HIDkeyBoard.KEYCODE1 = 0x00;
-	USBD_HID_SendReport(&hUsbDeviceFS, &HIDkeyBoard, sizeof(HIDkeyBoard));
-	HAL_Delay(50);
-}
-
-
-=======
     // 4. 移动到下一行
     keypad_state.current_row = (keypad_state.current_row + 1) % 5;
 }
@@ -399,7 +275,6 @@ void ScanKeypad(void) {
 //}
 
 //
->>>>>>> 2814753 (long press added)
 
 
 
