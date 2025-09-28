@@ -1,1 +1,6 @@
+<<<<<<< HEAD
 ../Core/Src/keypad.c:37:6:ScanKeypad	24	static
+=======
+../Core/Src/keypad.c:46:6:KEYPAD_Init	8	static
+../Core/Src/keypad.c:55:6:ScanKeypad	24	static
+>>>>>>> 2814753 (long press added)
